@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<table>
+    <tr>
+        <th>name</th>
+        <th>birthday</th>
+        <th>gender</th>
+        <th><a href="/hello/add/" >add</a></th>
+    </tr>
+    {% for u in users %}
+        <tr>
+            <td>{{ u.name }}</td>
+            <td>{{ u.birthday|date:"Y-m-d" }}</td>
+            <td>{{ u.gender }}</td>
+            <td>
+                <a href="/hello/delete/{{ u.id }}">delete</a>
+                <a href="/hello/edit/?id={{ u.id }}">edit</a>
+            </td>
+        </tr>
+    {% endfor %}
+    <tr>
+        <td colspan="4">total: {{ users|length }}</td>
+    </tr>
+</table>
+{% endblock %}

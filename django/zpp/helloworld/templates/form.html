@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+<form method="post" action="{{ action }}">
+    <label for="name">name: </label><input name="name" type="text" value="{{ u.name }}"/><br>
+    <label for="birthday">birthday: </label><input name="birthday" type="text" value="{{ u.birthday }}"/><br>
+    <label for="gender">gender: </label><input name="gender" type="text" value="{{ u.gender }}"/><br>
+    <input value="submit" type="submit">
+</form>
+{% endblock %}
