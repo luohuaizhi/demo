@@ -16,11 +16,11 @@
     <label for="gender">gender: </label>
     <select name="gender" value="{{ u.gender }}">
         {% if u.gender %}
-        <option value="1" checked="checked">男</option>
+        <option value="1" selected>男</option>
         <option value="0">女</option>
         {% else %}
         <option value="1">男</option>
-        <option value="0" checked="checked">女</option>
+        <option value="0" selected>女</option>
         {% endif %}
     </select>
     <br>
