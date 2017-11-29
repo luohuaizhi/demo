@@ -1,25 +1,36 @@
 {% extends "base.html" %}
 {% block content %}
 <table>
+    {% for u in users %}
+    {% if forloop.first %}
     <tr>
+        <th>.</th>
         <th>name</th>
         <th>birthday</th>
         <th>gender</th>
-        <th><a href="/hello/add/" >add</a></th>
+        <th>desc</th>
+        <th>
+            <a href="/hello/add/" >add</a>
+        </th>
     </tr>
-    {% for u in users %}
-        <tr>
-            <td>{{ u.name }}</td>
-            <td>{{ u.birthday|date:"Y-m-d" }}</td>
-            <td>{{ u.gender }}</td>
-            <td>
-                <a href="/hello/delete/{{ u.id }}">delete</a>
-                <a href="/hello/edit/?id={{ u.id }}">edit</a>
-            </td>
-        </tr>
-    {% endfor %}
+    {% endif %}
     <tr>
-        <td colspan="4">total: {{ users|length }}</td>
+        <td><span>{{ forloop.counter }}</span></td>
+        <td>{{ u.name|lower }}</td>
+        <td>{{ u.birthday|date:"Y-m-d" }}</td>
+        <td>{% if u.gender %}男♂{% else %}女♀{% endif %}</td>
+        <td title="{{ u.desc }}">{{ u.desc|truncatewords:"15" }}</td>
+        <td>
+            <a href="/hello/delete/{{ u.id }}">delete</a>
+            <a href="/hello/edit/?id={{ u.id }}">edit</a>
+        </td>
     </tr>
+    {% if forloop.last %}
+    <tr>
+        <td colspan="6" style="text-align: right">{{ 'total'|upper }}: {{ users|length }}</td>
+    </tr>
+    {% endif %}
+    {% endfor %}
 </table>
 {% endblock %}
+

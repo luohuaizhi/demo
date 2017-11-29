@@ -1,9 +1,42 @@
 {% extends "base.html" %}
+{% block css %}
+    <style>
+        label {min-width:200px;}
+    </style>
+{% endblock %}
 {% block content %}
-<form method="post" action="{{ action }}">
-    <label for="name">name: </label><input name="name" type="text" value="{{ u.name }}"/><br>
-    <label for="birthday">birthday: </label><input name="birthday" type="text" value="{{ u.birthday }}"/><br>
-    <label for="gender">gender: </label><input name="gender" type="text" value="{{ u.gender }}"/><br>
-    <input value="submit" type="submit">
+<form id="user_data" method="post" action="{{ action }}">
+    <input type="hidden" name="id" value="{{ u.id }}">
+    <label for="name">name: </label>
+    <input name="name" type="text" value="{{ u.name }}"/>
+    <br>
+    <label for="birthday">birthday: </label>
+    <input name="birthday" type="date" value='{{ u.birthday|date:"Y-m-d" }}'/>
+    <br>
+    <label for="gender">gender: </label>
+    <select name="gender" value="{{ u.gender }}">
+        {% if u.gender %}
+        <option value="1" checked="checked">男</option>
+        <option value="0">女</option>
+        {% else %}
+        <option value="1">男</option>
+        <option value="0" checked="checked">女</option>
+        {% endif %}
+    </select>
+    <br>
+    <label for="desc">desc: </label>
+    <textarea name="desc" >{{ u.desc }}</textarea>
+    <br>
+    <input value="submit" type="button" onclick="checkSubmit()">
 </form>
+{% endblock %}
+{% block js %}
+<script>
+    function checkSubmit(){
+        var isSubmit = confirm("sure to commit?");
+        if (isSubmit){
+            document.getElementById("user_data").submit();
+        }
+    }
+</script>
 {% endblock %}
