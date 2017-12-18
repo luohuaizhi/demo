@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    {% block meta %}{% endblock %}
     <title>Hello Flask</title>
+    {% block css %}{% endblock %}
+    {% block script %}{% endblock %}
 </head>
 <body>
     {% block content %}

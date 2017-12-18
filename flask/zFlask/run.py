@@ -1,12 +1,20 @@
 # -*- encoding:utf-8 -*-
-from app import app, admin, general
+from application import app, admin, general
 
+host = "localhost"
 port = 5000
-ip = ""
 debug = True
 
 
-if __name__ == "__main__":
+def run():
+    app.register_blueprint(admin.mod, url_prefix="/admin")
     app.register_blueprint(general.mod)
-    app.register_blueprint(admin.mod)
-    app.run(ip=ip, port=port, debug=debug)
+    app.host = host
+    app.port = port
+    app.debug = debug
+    app.run(host=host, port=port, debug=debug)
+
+
+if __name__ == "__main__":
+    run()
+

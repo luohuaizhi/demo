@@ -1,0 +1,27 @@
+{% extends 'base/base.html' %}
+{% block content %}
+    <table>
+        <tr>
+            <th>name</th>
+            <th>password</th>
+        </tr>
+        <tbody>
+            {% for u in user_list %}
+                <form action="/admin/modify" action="post">
+                    <input type="hidden" name="id" value="{{ u.id }}">
+                    <tr>
+                        <td>
+                            <input name="name" value="{{ u.name }}">
+                        </td>
+                        <td>
+                            <input name="password" value="{{ u.password }}">
+                        </td>
+                        <td>
+                            <input type="submit">
+                        </td>
+                    </tr>
+                </form>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

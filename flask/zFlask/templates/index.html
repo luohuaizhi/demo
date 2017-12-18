@@ -1,4 +1,40 @@
-{% extends base.html %}
+{% extends 'base/base.html' %}
+{% block css %}
+    <link rel="stylesheet" type="text/css"  href="/static/css/common.css">
+{% endblock %}
 {% block content %}
-    Hello {{ name }}
+    <div class="content">
+        <h1>Hello {{ user.name }}</h1>
+        <form>
+            <ul>
+                <li>
+                    <label class="login_label">username:</label>
+                    <input name="username" value="{{ user.name }}">
+                </li>
+                <li>
+                    <label class="login_label">phone:</label>
+                    <input name="hone" value="{{ user.phone }}">
+                </li>
+                <li>
+                    <label class="login_label">gender:</label>
+                    <select name="gender" value="{{ user.gender }}">
+                        <option value="1" {% if user.gender %} selected {% endif %}>男</option>
+                        <option value="0" {% if not user.gender %} selected {% endif %}>女</option>
+                    </select>
+                </li>
+                <li>
+                    <label class="login_label">birthday:</label>
+                    <input name="birthday" value="{{ user.birthday }}" type="date">
+                </li>
+                <li>
+                    <label class="login_label">photo:</label>
+                    <input name="photo" value="{{ user.photo }}" type="file">
+                    <img src="{{ user.photo }}" />
+                </li>
+                <li>
+                    <input type="submit" value="login">
+                </li>
+            </ul>
+        </form>
+    </div>
 {% endblock %}
