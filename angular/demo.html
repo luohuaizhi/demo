@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script> 
+</head>
+<body ng-app="myApp" ng-init="">
+<runoob-directive></runoob-directive>
+<div runoob-directive></div>
+<div class="runoob-directive"></div>
+<!-- directive: runoob-directive -->
+<input type="email" name="myAddress" >
+<!-- Views -->
+<div ng-controller="myCtrl">
+    <select ng-model="name">
+        <option ng-repeat="x in names">{{x}}</option>
+    </select>
+</div>
+<div ng-controller="myCtrl2">
+    <select ng-model="name">
+        <option ng-repeat="x in names">{{x}}</option>
+    </select>
+</div>
+<span ng-model="name"></span>
+</body>
+<script>
+    var app = angular.module("myApp", []);
+    app.directive("runoobDirective", function() {
+        return {
+            // restrict : "C",
+            // restrict : "M",
+            // replace : true,
+            template : "<h1>自定义指令!</h1>"
+        };
+    });
+    // Controller
+    app.controller('myCtrl', function($scope, $rootScope) {
+        $scope.name = "";
+        $scope.names = ["Hello", "Hi", "Welcome"];
+        $rootScope.tip = $scope.name;
+    });
+    app.controller('myCtrl2', function($scope, $rootScope) {
+        $scope.name = "";
+        $scope.names = ["baidu", "alibaba", "tencent"];
+        $rootScope.tip = $scope.name;
+    });
+</script>
+</html>
