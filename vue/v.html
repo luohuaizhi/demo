@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Vue 测试</title>
+<script src="https://cdn.bootcss.com/vue/2.2.2/vue.min.js"></script>
+<style type="text/css">
+    .active {
+        width: 100px;
+        height: 100px;
+        background: green;
+    }
+    .box{
+        border-radius:5px;
+    }
+    .float{
+        float:right;
+    }
+</style>
+</head>
+<body>
+<div id="app">
+    <!-- 基本数据 -->
+    <h5 v-bind:href="murl">1.基本数据</h5>
+    <div id="content"></div>
+    <p>{{ message|capitalize  }}</p>
+    <input v-model="message" v-on:keyup.enter="saveMsg">
+    <br><br>
+    <button v-on:click="reverseMessage">反转字符串</button>
+    <!-- 条件判断 -->
+    <hr><br>
+    <h5>2.条件判断</h5>
+    <p v-if="seen">现在你看到我了!!!</p>
+    <p v-else>什么也没有了???</p>
+    <p v-if="hCoount%3==0">VUE Demo</p>
+    <p v-else-if="hCoount%3==1">学的不仅是技术，更是梦想！</p>
+    <p v-else="hCoount%3==2">哈哈哈，打字辛苦啊！！！</p>
+    <p v-show="ok">Run OOB</p>
+    <button v-on:click="hideMessage">隐藏字符串</button>
+    <!-- 循环 -->
+    <hr><br>
+    <h5>2.循环</h5>
+    <ol>
+        <li>----------start</li>
+        <li v-for="s in seq">{{ s.name }}</li>
+        <li>end------------</li>
+    </ol>
+    <ul>
+        <li v-for="(value, key, index) in obj">
+         {{ index }}. {{ key }} : {{ value }}
+        </li>
+    </ul>
+    <span v-for="i in 3">{{ i }}, </span>
+    <!-- 计算 -->
+    <hr><br>
+    <h5>3.计算</h5>
+    <p>{{ message }}</p>
+    <p>{{ message.split('').reverse().join('') }}</p>
+    <p>计算后反转字符串: {{ reverseMsg }}</p>
+    <div id="computed"></div>
+    <!-- 样式 -->
+    <hr><br>
+    <h5>4.样式</h5>
+    <div v-bind:class="{ active: isActive, box:isActive}"></div>
+    <br>
+    <div v-bind:class="v_active"></div>
+    <br>
+    <div v-bind:class="[v_active, v_ok]"></div>
+    <br>
+    <div v-bind:style="{ color: activeColor, fontSize: fontSize + 'px' }">VUE Demo</div>
+    <div v-bind:style="styleObject">VUE Demo</div>
+    <div v-bind:style="[baseStyles, overridingStyles]">VUE Demo</div>
+    <!-- 事件 -->
+    <hr><br>
+    <h5>5.事件</h5>
+    <button v-on:click="counter += 1">增加 1</button>
+    <p>这个按钮被点击了 {{ counter }} 次。</p>
+    <button v-on:click="greet">Greet</button>
+    <button v-on:click="say(message)">Say</button>
+    <!-- 表单 -->
+    <hr><br>
+    <h5>6.表单</h5>
+    <p>单个复选框：</p>
+    <input type="checkbox" id="checkbox" v-model="form.checked">
+    <label for="checkbox">{{ form.checked }}</label>
+    <p>多个复选框：</p>
+    <input type="checkbox" id="Runvue" value="Runvue" v-model="form.checkedNames">
+    <label for="Runoob">Runoob</label>
+    <input type="checkbox" id="google" value="Google" v-model="form.checkedNames">
+    <label for="google">Google</label>
+    <input type="checkbox" id="taobao" value="Taobao" v-model="form.checkedNames">
+    <label for="taobao">taobao</label>
+    <br>
+    <span>选择的值为: {{ form.checkedNames }}</span>
+    <br>
+    <p>单选按钮</p>
+    <input type="radio" id="Runoob" value="Runoob" v-model="form.picked">
+    <label for="Runoob">Runoob</label>
+    <br>
+    <input type="radio" id="google" value="Google" v-model="form.picked">
+    <label for="google">Google</label>
+    <br>
+    <span>选中值为: {{ form.picked }}</span>
+    <p>下拉选择</p>
+    <select v-model="form.selected" name="fruit">
+        <option value="">选择一个网站</option>
+        <option value="www.Runoob.com">Runoob</option>
+        <option value="www.google.com">Google</option>
+    </select>
+    <div id="output">选择的网站是: {{ form.selected }}</div>
+    <p>修饰符</p>
+    <input name="deco" v-model.lazy.trim.number="form.num">
+    <label for="deco">{{form.num}}</label>
+
+    <!-- 7.组件 -->
+    <hr><br>
+    <h5>7.组件</h5>
+    <oob data="123" txt="234"></oob>
+    <obb content="i'm a child element"></obb>
+    <!-- 8.自定义指令 -->
+    <hr><br>
+    <h5>8.自定义指令</h5>
+    <p>页面载入时，input 元素自动获取焦点：</p>
+    <input v-focus/>
+    <div v-init:test.a.b="message" ></div>
+</div>
+<!-- 7.2.组件 -->
+<div id="counter-event-example">
+    <p>{{ total }}</p>
+    <button-counter v-on:increment="incrementTotal"></button-counter>
+    <button-counter v-on:increment="incrementTotal"></button-counter>
+</div>
+<script>
+// 7.注册组件
+Vue.component('oob', {
+    props : ["data", "txt"],
+    template: '<h1>自定义全局组件!   data:{{data}},text:{{txt}}</h1>',
+});
+// 8.注册一个全局自定义指令 v-focus
+Vue.directive('focus', {
+  // 当绑定元素插入到 DOM 中。
+  inserted: function (el) {
+    // 聚焦元素
+    el.focus();
+    console.log("inserted");
+  },
+  bind:function(el, binding, vnode){
+    el.value="i'm global directive ";
+    console.log("bind");
+  },
+  update:function(el){
+    console.log("update");
+  },
+  componentUpdated:function(el){
+    console.log("componentUpdated");
+  },
+  unbind:function(el){
+    console.log("unbind");
+  },
+});
+var v = new Vue({
+  el: '#app',
+  data: {
+    message: 'Runvue!',
+    murl: 'www.baidu.com',
+    seen: true,
+    hCoount: 0,
+    ok:true,
+    seq:[
+        {name:"bod"},
+        {name:"sturt"},
+        {name:"iven"}
+    ],
+    obj:{
+        name:"bob",
+        age:12,
+        high:158,
+    },
+    isActive: true,
+    activeColor: 'green',
+    fontSize: 30,
+    styleObject:{color: 'green',fontSize: '30px'},
+    baseStyles: {color: 'green',fontSize: '30px'},
+    overridingStyles: {'font-weight': 'bold'},
+    counter: 0,
+    form:{
+        checked : false,
+        checkedNames: [],
+        picked:true,
+        selected:'',
+        num:NaN,
+    },
+  },
+  methods: {
+    reverseMessage: function () {
+        this.message = this.message.split('').reverse().join('')
+    },
+    hideMessage: function () {
+        this.seen = !this.seen;
+        this.ok = !this.ok;
+        this.hCoount++
+    },
+    greet: function (event) {
+        // `this` 在方法里指当前 Vue 实例
+        // alert('Hello ' + this.name + '!')
+        // `event` 是原生 DOM 事件
+        if (event) {
+            alert(event.target.tagName)
+        }
+    },
+    say: function(msg){
+        alert("Hello  "+msg);
+    },
+    saveMsg:function(){
+        var p=document.createElement("p");
+        var t=document.createTextNode(this.message);
+        p.appendChild(t);
+        document.getElementById("content").append(p);
+        this.message = "";
+    }
+  },
+  filters: {
+    capitalize: function (value) {
+      if (!value) return ''
+      value = value.toString()
+      return value.charAt(0).toUpperCase() + value.slice(1)
+    }
+  },
+  computed:{
+    reverseMsg: function () {// getter
+        return this.message.split('').reverse().join('')
+    },
+    site: {
+      // getter
+      get: function () {
+        return this.name + ' ' + this.url
+      },
+      // setter
+      set: function (newValue) {
+        var names = newValue.split(' ')
+        this.name = names[0]
+        this.url = names[names.length - 1]
+      }
+    },
+    v_active:function(){
+        return {active: this.isActive, box:this.isActive}
+    },
+    v_ok:function(){
+        return {float: this.isActive}
+    },
+  },
+  components:{
+    "obb": {
+        props: ["content"],
+        template: "<h6>自定义局部组件:{{content}}</h6>"
+    }
+  },
+  directives:{
+    init:{
+      inserted:function(el, binding, vnode) {
+        var s = JSON.stringify
+        el.innerHTML =
+          'name: '       + s(binding.name) + '<br>' +
+          'value: '      + s(binding.value) + '<br>' +
+          'expression: ' + s(binding.expression) + '<br>' +
+          'argument: '   + s(binding.arg) + '<br>' +
+          'modifiers: '  + s(binding.modifiers) + '<br>' +
+          'vnode keys: ' + Object.keys(vnode).join(', ');
+        el.style.border="1px solid silver"
+      }
+    }
+  },
+});
+// 监视变量
+// v.$watch('message', function(newValue, oldValue){
+//     alert(newValue+" repalce with "+oldValue+"!")
+// });
+v.site = 'VUE Demo http://www.Runvue.com';
+document.getElementById("computed").innerText=v.site;
+v.greet();
+console.log(v.message);
+// 自定义组件变量传递
+Vue.component('button-counter', {
+  template: '<button v-on:click="incrementHandler">{{ counter }}</button>',
+  data: function () {
+    return {
+      counter: 0
+    }
+  },
+  methods: {
+    incrementHandler: function () {
+      this.counter += 1
+      this.$emit('increment')
+    }
+  },
+})
+var temp = new Vue({
+  el: '#counter-event-example',
+  data: {
+    total: 0,
+  },
+  methods: {
+    incrementTotal: function () {
+      this.total += 1;
+    }
+  }
+})
+</script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Vue 测试</title>
+<!-- <script src="https://cdn.boo/tcss.com/vue/2.2.2/vue.min.js"></script> -->
+<script src="http://cdn.static.runoob.com/libs/jquery/1.10.2/jquery.min.js"></script>
+<style type="text/css">
+
+</style>
+
+</head>
+<body>
+<div id="app">
+  <date-picker
+    v-if="showDatePicker"
+    :date="date"
+    :min-date="minDate"
+    :max-date="maxDate"
+    @confirm="confirm"
+    @cancel="cancel"
+    ></date-picker>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+  // $.get("http://www.sojson.com/open/api/weather/json.shtml", {city:"北京"}, function(result){
+  //    console.log(result);
+  // });
+    $.ajax({
+        url: "http://www.sojson.com/open/api/weather/json.shtml",
+        type: "GET",
+        contentType:"application/json; charset=utf-8",  //  ---->  问题就在这里了
+        data: {"contentType": "application/json;charset=utf-8",city:"北京"},
+        dataType:"json",
+        success: function(data){
+            //On ajax success do this
+            console.info("success.");
+            if (data["status"] == "ok"){
+                alert("Settings is Ok. The Machine is rebooting.");
+            }
+        },
+        error: function(xhr, ajaxOptions, thrownError) {
+            //On error do this
+            console.info("error.");
+            if (xhr.status == 200) {
+
+                alert(ajaxOptions);
+            }
+            else {
+                alert(xhr.status);
+                alert(thrownError);
+            }
+        }
+    });
+});
+</script>
+</body>
+</html>
